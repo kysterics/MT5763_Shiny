@@ -10,8 +10,8 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            #titlePanel("Simple"),
                            sidebarPanel(
                              #tags$h3("Configurator"),
-                             textInput("txt1", "Given Name:", ""),
-                             textInput("txt2", "Surname:", ""),
+                             #textInput("txt1", "Given Name:", ""),
+                             #textInput("txt2", "Surname:", ""),
                              
                              selectInput("day", "Day:",
                                          # queries for API
@@ -32,22 +32,22 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              actionButton(inputId = "dlBtn",
                                           label = "Download",
                                           icon = icon("cloud-download-alt")),
-                             
-                             # Mean
-                             numericInput(inputId = "mean",
-                                          label = "Mean of normal distributon.",
-                                          value = 0),
-                             # Var
-                             numericInput(inputId = "var",
-                                          label = "Variance of normal distributon.",
-                                          value = 1,
-                                          min = 0.01),
-                             # Bin
-                             sliderInput(inputId = "bin",
-                                         label = "Number of bins.",
-                                         value = 20,
-                                         min = 1,
-                                         max = 50),
+                             # 
+                             # # Mean
+                             # numericInput(inputId = "mean",
+                             #              label = "Mean of normal distributon.",
+                             #              value = 0),
+                             # # Var
+                             # numericInput(inputId = "var",
+                             #              label = "Variance of normal distributon.",
+                             #              value = 1,
+                             #              min = 0.01),
+                             # # Bin
+                             # sliderInput(inputId = "bin",
+                             #             label = "Number of bins.",
+                             #             value = 20,
+                             #             min = 1,
+                             #             max = 50),
                              
                              # Main panel
                              # Placeholder for histogram plot
@@ -64,6 +64,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              tableOutput("tableOut1"),
                              tableOutput("tableOut2"),
                              tableOutput("tableOut3"),
+                             tableOutput("tableOut4"),
                              #verbatimTextOutput("txtOut")
                              
                            ) # mainPanel

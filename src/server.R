@@ -1,6 +1,7 @@
 server <- function(input, output) {
   # paths_allowed("https://www.amazon.co.uk/")
   
+  # Summary ---------------------------
   # set reactive timer to 3600000 ms, or 1 hour
   autoInvalidate <- reactiveTimer(3600000)
   
@@ -42,5 +43,26 @@ server <- function(input, output) {
       select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`)
   })
   
+  # Detailed Table ---------------------------
+  data1 <- reactive({
+    # Web page containing data over several weeks
+    URL <- "https://www.worldometers.info/coronavirus/"
+    # Download the whole web page
+    htmlPage <- read_html(URL) 
+    # Access the whole table
+    marketTable <- htmlPage %>%
+      html_nodes("#main_table_countries_today") %>%
+      html_table()
+  })
+  
+  # txt1 <- eventReactive(input$button, {input$txt1})
+  # txt2 <- eventReactive(input$button, {input$txt2})
+  
+  
+  output$tableOut4 <- renderTable({
+    data <- bind_rows(data1()) %>%
+      filter(!is.na(`#`)) %>%
+      arrange(`Country,Other`)
+  })
   
 }
