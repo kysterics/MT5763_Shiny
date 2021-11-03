@@ -3,19 +3,19 @@ ui <- fluidPage(theme = shinytheme("slate"),
                 
                 navbarPage(
                   
-                  "My first app",
+                  "Data Source",
                   
-                  tabPanel("Navbar 1",
+                  tabPanel("Worldometers",
                            
-                           titlePanel("Simple histogram"),
+                           #titlePanel("Simple"),
                            sidebarPanel(
-                             
-                             tags$h3("Input:"),
+                             #tags$h3("Configurator"),
                              textInput("txt1", "Given Name:", ""),
                              textInput("txt2", "Surname:", ""),
                              
                              selectInput("day", "Day:",
-                                         c("Today" = "allowNull", # today
+                                         # queries for API
+                                         c("Today" = "allowNull",
                                            "Yesterday" = "yesterday",
                                            "Two days ago" = "twoDaysAgo")),
                              
@@ -24,6 +24,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                           label = "Refresh",
                                           icon = icon("sync-alt")),
                              
+                             # Auto refresh checkbox
                              checkboxInput("autoRf","Auto refresh (every hour)", T),
                              
                              
@@ -59,15 +60,16 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            mainPanel(
                              h1("COVID-19 Update Summary"),
                              
-                             #h4(paste(input$day)),
-                             #tableOutput("tableOut")
-                             verbatimTextOutput("txtOut")
-                             # verbatimTextOutput("txtout")
+                             #h4("General"),
+                             tableOutput("tableOut1"),
+                             tableOutput("tableOut2"),
+                             tableOutput("tableOut3"),
+                             #verbatimTextOutput("txtOut")
                              
                            ) # mainPanel
                            
                   ), # Navbar 1, tabPanel
-                  tabPanel("Navbar 2", "This panel is intentionally left blank"),
+                  tabPanel("JHUCSSE", "This panel is intentionally left blank"),
                   tabPanel("Navbar 3", "This panel is intentionally left blank"),
                   
                   
