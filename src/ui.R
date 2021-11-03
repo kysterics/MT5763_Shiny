@@ -15,19 +15,22 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              textInput("txt2", "Surname:", ""),
                              
                              selectInput("day", "Day:",
-                                         c("Today" = "today",
+                                         c("Today" = "allowNull", # today
                                            "Yesterday" = "yesterday",
                                            "Two days ago" = "twoDaysAgo")),
-                             
-                             # Download button
-                             actionButton(inputId = "dlBtn",
-                                          label = "Download",
-                                          icon = icon("cloud-download-alt")),
                              
                              # Refresh button
                              actionButton(inputId = "rfBtn",
                                           label = "Refresh",
                                           icon = icon("sync-alt")),
+                             
+                             checkboxInput("autoRf","Auto refresh (every hour)", T),
+                             
+                             
+                             # Download button
+                             actionButton(inputId = "dlBtn",
+                                          label = "Download",
+                                          icon = icon("cloud-download-alt")),
                              
                              # Mean
                              numericInput(inputId = "mean",

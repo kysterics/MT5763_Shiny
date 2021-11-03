@@ -1,11 +1,13 @@
 server <- function(input, output) {
   # paths_allowed("https://www.amazon.co.uk/")
   
-  # takes `allowNull`(today), `yesterday` and `twoDaysAgo`
-  # returns a reactive object
-
-  data <- eventReactive(c(input$rfBtn, input$day), {
+  autoInvalidate <- reactiveTimer(5000)
+  
+  data <- reactive({
+    input$refresh
+    data <- eventReactive(c(input$rfBtn, input$day), {
       # API call
+      # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
       URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
       # Send http request
       response <- httr::GET(URL)
@@ -14,7 +16,16 @@ server <- function(input, output) {
       dtaJSON <- readBin(response$content, "text")
       dta <- jsonlite::fromJSON(dtaJSON)
       dta
+    })
+    
+    if(input$autoRf){
+      autoInvalidate()
+      return(data())
+    }
+    return(data())
   })
+  
+
   
   #data <- eventReactive(input$button, {
     # Web page containing data over several weeks
@@ -39,7 +50,10 @@ server <- function(input, output) {
   #output$tableOut <- renderTable({
     #data()
   #})
+
+
   output$txtOut <- renderText({
+    
     paste("Country:", "ALL", "\n",
           
           "Total Cases:", data()$cases, "\n",
