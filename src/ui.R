@@ -14,10 +14,20 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              textInput("txt1", "Given Name:", ""),
                              textInput("txt2", "Surname:", ""),
                              
+                             selectInput("day", "Day:",
+                                         c("Today" = "today",
+                                           "Yesterday" = "yesterday",
+                                           "Two days ago" = "twoDaysAgo")),
+                             
                              # Download button
-                             actionButton(inputId = "button",
+                             actionButton(inputId = "dlBtn",
                                           label = "Download",
                                           icon = icon("cloud-download-alt")),
+                             
+                             # Refresh button
+                             actionButton(inputId = "rfBtn",
+                                          label = "Refresh",
+                                          icon = icon("sync-alt")),
                              
                              # Mean
                              numericInput(inputId = "mean",
@@ -44,11 +54,11 @@ ui <- fluidPage(theme = shinytheme("slate"),
   
                            
                            mainPanel(
-                             h1("Header 1"),
+                             h1("COVID-19 Update Summary"),
                              
-                             h4("Output 1"),
-                             tableOutput("tableOut")
-                             
+                             #h4(paste(input$day)),
+                             #tableOutput("tableOut")
+                             verbatimTextOutput("txtOut")
                              # verbatimTextOutput("txtout")
                              
                            ) # mainPanel
