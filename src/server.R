@@ -1,6 +1,22 @@
 server <- function(input, output) {
   # paths_allowed("https://www.amazon.co.uk/")
   
+  txt1 <- reactive({
+    if (input$day == "allowNull"){
+      return("Today")
+    }
+    if (input$day == "yesterday"){
+      return("Yesterday")
+    }
+    if (input$day == "twoDaysAgo"){
+      return("Two days ago")
+    }
+  })
+  
+  output$txtOut1 <- renderText({
+    glue("COVID-19 Update Summary ({txt1()})")
+  })
+  
   # Summary ---------------------------
   # set reactive timer to 3600000 ms, or 1 hour
   autoInvalidate <- reactiveTimer(3600000)
@@ -9,15 +25,18 @@ server <- function(input, output) {
     input$rfBtn
     # API call
     # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
+
+    
     URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
     # Send http request
     response <- httr::GET(URL)
     
     # Read / unpack a binary file
     dtaJSON <- readBin(response$content, "text")
-    data <- fromJSON(dtaJSON)
+    data <- fromJSON(dtaJSON) %>%
+      bind_rows()
     
-    if(input$autoRf){
+    if (input$autoRf){
       autoInvalidate()
       return(data)
     }
@@ -27,17 +46,17 @@ server <- function(input, output) {
   
 
   output$tableOut1 <- renderTable({
-    data <- bind_rows(data()) %>%
+    data <- data() %>%
       select(`todayCases`, `todayDeaths`, `todayRecovered`, `active`, `critical`)
   })
 
   output$tableOut2 <- renderTable({
-    data <- bind_rows(data()) %>%
+    data <- data() %>%
       select(`cases`, `deaths`, `recovered`, `tests`, `population`)
     # select(-`updated`, -``, -``, -``, -``)
   })
   output$tableOut3 <- renderTable({
-    data <- bind_rows(data()) %>%
+    data <- data() %>%
       select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`)
   })
   
@@ -57,7 +76,7 @@ server <- function(input, output) {
       arrange(`Country,Other`)
   })
   
-  # txt1 <- eventReactive(input$button, {input$txt1})
+
   # txt2 <- eventReactive(input$button, {input$txt2})
   
   output$tableOut4 <- renderTable({

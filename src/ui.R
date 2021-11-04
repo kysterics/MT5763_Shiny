@@ -57,21 +57,23 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              
                              # Main panel
                              # Placeholder for histogram plot
-                             mainPanel(
-                               plotOutput(outputId = "histPlot")
-                             )
+                             # mainPanel(
+                             #   plotOutput(outputId = "histPlot")
+                             # )
                            ), # sidebarPanel
-  
                            
                            mainPanel(
                              
                              # style = "margin-left:-23em",
                              
-                             h1("COVID-19 Update Summary"),
+                             # h1("COVID-19 Update Summary"),
+                             h1(textOutput("txtOut1")),
                              
                              h2("Global Totals"),
-                             h4("Today"),
+                      
+                             h4("On the day"),
                              tableOutput("tableOut1"),
+                             
                              h4("Overall"),
                              tableOutput("tableOut2"),
                              h4("Per Million"),
