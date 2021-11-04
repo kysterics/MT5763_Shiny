@@ -60,6 +60,7 @@ server <- function(input, output) {
   
   # Detailed Table ---------------------------
   data1 <- reactive({
+    input$rfBtn
     # Web page containing data
     URL <- "https://www.worldometers.info/coronavirus/"
     # Download the whole web page
