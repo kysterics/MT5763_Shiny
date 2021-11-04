@@ -25,8 +25,6 @@ server <- function(input, output) {
     input$rfBtn
     # API call
     # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
-
-    
     URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
     # Send http request
     response <- httr::GET(URL)
@@ -62,18 +60,19 @@ server <- function(input, output) {
   
   # Detailed Table ---------------------------
   data1 <- reactive({
-    # Web page containing data over several weeks
+    # Web page containing data
     URL <- "https://www.worldometers.info/coronavirus/"
     # Download the whole web page
     htmlPage <- read_html(URL) 
     # Access the whole table
+
     marketTable <- htmlPage %>%
       html_nodes("#main_table_countries_today") %>% # main_table_countries_yesterday
       html_table() %>%
       bind_rows() %>%
       filter(!is.na(`#`)) %>%
       select(1:9) %>%
-      arrange(`Country,Other`)
+      arrange(get(input$sort)) # turns character into a variable
   })
   
 

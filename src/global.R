@@ -13,3 +13,4 @@ library(httr)
 library(jsonlite)
 
 library(glue)
+library(magrittr)
