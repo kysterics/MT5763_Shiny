@@ -6,25 +6,23 @@ server <- function(input, output) {
   autoInvalidate <- reactiveTimer(3600000)
   
   data <- reactive({
-    input$refresh
-    data <- eventReactive(c(input$rfBtn, input$day), {
-      # API call
-      # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
-      URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
-      # Send http request
-      response <- httr::GET(URL)
-      
-      # Read / unpack a binary file
-      dtaJSON <- readBin(response$content, "text")
-      dta <- jsonlite::fromJSON(dtaJSON)
-      dta
-    })
+    input$rfBtn
+    # API call
+    # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
+    URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
+    # Send http request
+    response <- httr::GET(URL)
+    
+    # Read / unpack a binary file
+    dtaJSON <- readBin(response$content, "text")
+    data <- fromJSON(dtaJSON)
     
     if(input$autoRf){
       autoInvalidate()
-      return(data())
+      return(data)
     }
-    return(data())
+    
+    return(data)
   })
   
 

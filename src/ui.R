@@ -7,10 +7,11 @@ ui <- fluidPage(theme = shinytheme("slate"),
                   
                   tabPanel("Worldometers",
                            
-                           #titlePanel("Simple"),
+                           #titlePanel("Floating Panel"),
                            sidebarPanel(
-                             #tags$h3("Configurator"),
-                             #textInput("txt1", "Given Name:", ""),
+                             style = "position:fixed;width:inherit;",
+                             tags$h3("Global Totals"),
+                             textInput("txt1", "Given Name:", ""),
                              #textInput("txt2", "Surname:", ""),
                              
                              selectInput("day", "Day:",
@@ -25,7 +26,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                           icon = icon("sync-alt")),
                              
                              # Auto refresh checkbox
-                             checkboxInput("autoRf","Auto refresh (every hour)", T),
+                             checkboxInput("autoRf", "Auto refresh (every hour)", T),
                              
                              
                              # Download button
@@ -60,10 +61,15 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            mainPanel(
                              h1("COVID-19 Update Summary"),
                              
-                             #h4("General"),
+                             h2("Global Totals"),
+                             h4("Today"),
                              tableOutput("tableOut1"),
+                             h4("Overall"),
                              tableOutput("tableOut2"),
+                             h4("Per Million"),
                              tableOutput("tableOut3"),
+                             
+                             h2("Global Summary"),
                              tableOutput("tableOut4"),
                              #verbatimTextOutput("txtOut")
                              
