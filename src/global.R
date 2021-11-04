@@ -11,3 +11,5 @@ library(lubridate)  # to change strings to dates
 
 library(httr)
 library(jsonlite)
+
+library(glue)
