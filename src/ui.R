@@ -12,14 +12,6 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              
                              # style = "position:fixed;width:15%;",
                              
-                             # Refresh button
-                             actionButton(inputId = "rfBtn",
-                                          label = "Refresh",
-                                          icon = icon("sync-alt")),
-                             
-                             # Auto refresh checkbox
-                             checkboxInput("autoRf", "Auto refresh (every hour)", T),
-                             
                              tags$h3("Global Totals"),
                              # textInput("txt1", "Country", ""),
                              #textInput("txt2", "Surname:", ""),
@@ -31,11 +23,13 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                            "Two days ago" = "twoDaysAgo")),
                              
                              tags$h3("Cases by Country/Territory"),
+                             
                              selectInput("sort", "Sort by:",
                                          # queries for API
-                                         c("Country/Territory" = "Country,Other	",
+                                         c("Country/Territory" = "Country,Other",
                                            "Total Cases" = "TotalCases",
                                            "New Cases" = "NewCases",
+                                           "Total Deaths" = "TotalDeaths",
                                            "New Deaths" = "NewDeaths",
                                            "Total Recovered" = "TotalRecovered",
                                            "New Recovered" = "NewRecovered",
@@ -50,7 +44,15 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              downloadButton(outputId = "downloadData",
                                             label = "Download",
                                             icon = icon("cloud-download-alt")),
-
+                             
+                             # Refresh button
+                             actionButton(inputId = "rfBtn",
+                                          label = "Refresh",
+                                          icon = icon("sync-alt")),
+                             
+                             # Auto refresh checkbox
+                             checkboxInput("autoRf", "Auto refresh (every hour)", T),
+                             
                              # # Mean
                              # numericInput(inputId = "mean",
                              #              label = "Mean of normal distributon.",
@@ -98,6 +100,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            ) # mainPanel
                            
                   ), # Navbar 1, tabPanel
+                  
                   tabPanel("JHUCSSE", "This panel is intentionally left blank"),
                   tabPanel("Navbar 3", "This panel is intentionally left blank"),
                   
