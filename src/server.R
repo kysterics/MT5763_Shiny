@@ -71,8 +71,18 @@ server <- function(input, output) {
       html_table() %>%
       bind_rows() %>%
       filter(!is.na(`#`)) %>%
-      select(1:9) %>%
-      arrange(get(input$sort)) # turns character into a variable
+      select(1:9)
+
+    if (input$order == "asc") {
+      marketTable <- marketTable %>% 
+        arrange(get(input$sort)) # `get` turns character into a variable
+    }
+    
+    if (input$order == "dsc") {
+      marketTable <- marketTable %>% 
+        arrange(desc(get(input$sort)))
+    }
+    marketTable
   })
   
 

@@ -25,8 +25,8 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              tags$h3("Cases by Country/Territory"),
                              
                              selectInput("sort", "Sort by:",
-                                         # queries for API
-                                         c("Country/Territory" = "Country,Other",
+                                         c("#" = "#",
+                                           "Country/Territory" = "Country,Other",
                                            "Total Cases" = "TotalCases",
                                            "New Cases" = "NewCases",
                                            "Total Deaths" = "TotalDeaths",
@@ -35,20 +35,24 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                            "New Recovered" = "NewRecovered",
                                            "Active Cases" = "ActiveCases")),
                              
+                             selectInput("order", "Order:",
+                                         c("Ascending" = "asc",
+                                           "Descending" = "dsc")),
+                             
                              tags$h3("Download in .csv"),
                              # Input: Choose dataset to download
                              selectInput("dataset", "Choose a dataset:",
                                          choices = c("Cases by Country/Territory", "Global Totals")),
                              
-                             # Download button
-                             downloadButton(outputId = "downloadData",
-                                            label = "Download",
-                                            icon = icon("cloud-download-alt")),
-                             
                              # Refresh button
                              actionButton(inputId = "rfBtn",
                                           label = "Refresh",
                                           icon = icon("sync-alt")),
+                             # Download button
+                             downloadButton(outputId = "downloadData",
+                                            label = "Download",
+                                            icon = icon("cloud-download-alt")),
+
                              
                              # Auto refresh checkbox
                              checkboxInput("autoRf", "Auto refresh (every hour)", T),
