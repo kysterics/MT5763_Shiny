@@ -12,6 +12,14 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              
                              # style = "position:fixed;width:15%;",
                              
+                             # Refresh button
+                             actionButton(inputId = "rfBtn",
+                                          label = "Refresh",
+                                          icon = icon("sync-alt")),
+                             
+                             # Auto refresh checkbox
+                             checkboxInput("autoRf", "Auto refresh (every hour)", T),
+                             
                              tags$h3("Global Totals"),
                              # textInput("txt1", "Country", ""),
                              #textInput("txt2", "Surname:", ""),
@@ -22,23 +30,27 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                            "Yesterday" = "yesterday",
                                            "Two days ago" = "twoDaysAgo")),
                              
-                             # Refresh button
-                             actionButton(inputId = "rfBtn",
-                                          label = "Refresh",
-                                          icon = icon("sync-alt")),
+                             tags$h3("Cases by Country/Territory"),
+                             selectInput("sort", "Sort by:",
+                                         # queries for API
+                                         c("Country/Territory" = "Country,Other	",
+                                           "Total Cases" = "TotalCases",
+                                           "New Cases" = "NewCases",
+                                           "New Deaths" = "NewDeaths",
+                                           "Total Recovered" = "TotalRecovered",
+                                           "New Recovered" = "NewRecovered",
+                                           "Active Cases" = "ActiveCases")),
                              
-                             # Auto refresh checkbox
-                             checkboxInput("autoRf", "Auto refresh (every hour)", T),
-                             
+                             tags$h3("Download in .csv"),
                              # Input: Choose dataset to download
-                             selectInput("dataset", "Choose a dataset to download:",
-                                         choices = c("Cases by Country/Territory", "pressure", "cars")),
+                             selectInput("dataset", "Choose a dataset:",
+                                         choices = c("Cases by Country/Territory", "Global Totals")),
                              
                              # Download button
                              downloadButton(outputId = "downloadData",
-                                          label = "Download",
-                                          icon = icon("cloud-download-alt")),
-                             # 
+                                            label = "Download",
+                                            icon = icon("cloud-download-alt")),
+
                              # # Mean
                              # numericInput(inputId = "mean",
                              #              label = "Mean of normal distributon.",
