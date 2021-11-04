@@ -49,18 +49,27 @@ server <- function(input, output) {
     htmlPage <- read_html(URL) 
     # Access the whole table
     marketTable <- htmlPage %>%
-      html_nodes("#main_table_countries_today") %>%
-      html_table()
+      html_nodes("#main_table_countries_today") %>% # main_table_countries_yesterday
+      html_table() %>%
+      bind_rows() %>%
+      filter(!is.na(`#`)) %>%
+      select(1:9) %>%
+      arrange(`Country,Other`)
   })
   
   # txt1 <- eventReactive(input$button, {input$txt1})
   # txt2 <- eventReactive(input$button, {input$txt2})
   
-  
   output$tableOut4 <- renderTable({
-    data <- bind_rows(data1()) %>%
-      filter(!is.na(`#`)) %>%
-      arrange(`Country,Other`)
+    data1()
   })
   
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste(input$dataset, ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(data1(), file, row.names = FALSE)
+    }
+  )
 }

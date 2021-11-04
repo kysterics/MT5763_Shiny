@@ -9,9 +9,11 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            
                            #titlePanel("Floating Panel"),
                            sidebarPanel(
-                             style = "position:fixed;width:inherit;",
+                             
+                             # style = "position:fixed;width:15%;",
+                             
                              tags$h3("Global Totals"),
-                             textInput("txt1", "Given Name:", ""),
+                             # textInput("txt1", "Country", ""),
                              #textInput("txt2", "Surname:", ""),
                              
                              selectInput("day", "Day:",
@@ -28,9 +30,12 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              # Auto refresh checkbox
                              checkboxInput("autoRf", "Auto refresh (every hour)", T),
                              
+                             # Input: Choose dataset to download
+                             selectInput("dataset", "Choose a dataset to download:",
+                                         choices = c("Cases by Country/Territory", "pressure", "cars")),
                              
                              # Download button
-                             actionButton(inputId = "dlBtn",
+                             downloadButton(outputId = "downloadData",
                                           label = "Download",
                                           icon = icon("cloud-download-alt")),
                              # 
@@ -59,6 +64,9 @@ ui <- fluidPage(theme = shinytheme("slate"),
   
                            
                            mainPanel(
+                             
+                             # style = "margin-left:-23em",
+                             
                              h1("COVID-19 Update Summary"),
                              
                              h2("Global Totals"),
@@ -69,7 +77,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              h4("Per Million"),
                              tableOutput("tableOut3"),
                              
-                             h2("Global Summary"),
+                             h2("Cases by Country/Territory"),
                              tableOutput("tableOut4"),
                              #verbatimTextOutput("txtOut")
                              
