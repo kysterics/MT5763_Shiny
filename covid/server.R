@@ -14,7 +14,7 @@ server <- function(input, output) {
   })
   
   output$txtOut1 <- renderText({
-    glue::glue("COVID-19 Update Summary ({txt1()})")
+    glue::glue("Global Totals ({txt1()})")
   })
   
   txt2 <- reactive({

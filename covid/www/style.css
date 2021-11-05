@@ -13,11 +13,15 @@ nav.navbar.navbar-default.navbar-static-top {
 }
 
 .selectize-input.full {
-    background-color: #dddddd;
+    background-color: #d4d4d4;
 }
 
 h2 {
-    border-bottom: 3px solid #bbb;
+    border-bottom: 3px groove #bbb;
+}
+
+h3 {
+    border-bottom: 2px groove #bbb;
 }
 
 h4 {

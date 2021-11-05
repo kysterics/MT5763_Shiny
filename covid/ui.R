@@ -43,6 +43,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                            "Descending" = "dsc")),
                              
                              tags$h3("Download in .csv"),
+                             
                              # Input: Choose dataset to download
                              selectInput("dataset", "Choose a dataset:",
                                          choices = c("Global Totals (Complete)" = "globalTotals",
@@ -52,12 +53,12 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              actionButton(inputId = "rfBtn",
                                           label = "Refresh",
                                           icon = icon("sync-alt")),
+                             
                              # Download button
                              downloadButton(outputId = "downloadData",
                                             label = "Download",
                                             icon = icon("cloud-download-alt")),
 
-                             
                              # Auto refresh checkbox
                              checkboxInput("autoRf", "Auto refresh (every hour)", T),
                              verbatimTextOutput("txtOut")
@@ -66,9 +67,9 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            
                            mainPanel(
 
-                             h1(textOutput("txtOut1")),
+                             h1("COVID-19 Update Summary"),
                              
-                             h2("Global Totals"),
+                             h2(textOutput("txtOut1")),
                       
                              h4("On the day"),
                              tableOutput("tableOut1"),
@@ -85,9 +86,8 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            
                   ), # Navbar 1, tabPanel
                   
-                  tabPanel("JHUCSSE", "This panel is intentionally left blank"),
-                  tabPanel("Navbar 3", "This panel is intentionally left blank"),
-                  
+                  # tabPanel("JHUCSSE", "This panel is intentionally left blank"),
+                  # tabPanel("Navbar 3", "This panel is intentionally left blank"),
                   
                 ), # navbarPage
 
