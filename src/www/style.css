@@ -1,0 +1,27 @@
+nav.navbar.navbar-default.navbar-static-top {
+    position: sticky;
+    top: 0;
+}
+
+@media only screen and (min-width: 1100px) {
+    form.well {
+        position: fixed;
+    }
+}
+
+#tableOut3 thead th:nth-child(1),
+#tableOut2 thead th:nth-child(1),
+#tableOut1 thead th:nth-child(1) {
+    color: rgb(186, 183, 67);
+}
+#tableOut3 thead th:nth-child(2),
+#tableOut2 thead th:nth-child(2),
+#tableOut1 thead th:nth-child(2) {
+    color: rgb(174, 88, 76);
+}
+#tableOut3 thead th:nth-child(3),
+#tableOut2 thead th:nth-child(3),
+#tableOut1 thead th:nth-child(3) {
+    color: rgb(89, 169, 91);
+}
+
