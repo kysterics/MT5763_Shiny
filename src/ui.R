@@ -65,7 +65,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              
                              # Auto refresh checkbox
                              checkboxInput("autoRf", "Auto refresh (every hour)", T),
-                             
+                             verbatimTextOutput("txtOut")
                              # # Mean
                              # numericInput(inputId = "mean",
                              #              label = "Mean of normal distributon.",

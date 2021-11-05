@@ -146,4 +146,15 @@ server <- function(input, output) {
       write.csv(datasetInput(), file, row.names = FALSE)
     }
   )
+  
+  rfTime <- reactive({
+    input$rfBtn
+    as.character(Sys.time())
+  })
+  
+  observeEvent(c(input$rfBtn, autoInvalidate()), {
+    output$txtOut <- renderText({
+      glue::glue("Last refreshed: {rfTime()}")
+    })
+  })
 }
