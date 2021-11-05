@@ -8,15 +8,10 @@ ui <- fluidPage(theme = shinytheme("slate"),
                   "Data Source",
                   
                   tabPanel("Worldometers",
-                           
-                           #titlePanel("Floating Panel"),
+
                            sidebarPanel(
                              
-                             # style = "position:fixed;width:15%;",
-                             
                              tags$h3("Global Totals"),
-                             # textInput("txt1", "Country", ""),
-                             #textInput("txt2", "Surname:", ""),
                              
                              selectInput("dayGlobal", "Day:",
                                          # queries for API
@@ -66,34 +61,11 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              # Auto refresh checkbox
                              checkboxInput("autoRf", "Auto refresh (every hour)", T),
                              verbatimTextOutput("txtOut")
-                             # # Mean
-                             # numericInput(inputId = "mean",
-                             #              label = "Mean of normal distributon.",
-                             #              value = 0),
-                             # # Var
-                             # numericInput(inputId = "var",
-                             #              label = "Variance of normal distributon.",
-                             #              value = 1,
-                             #              min = 0.01),
-                             # # Bin
-                             # sliderInput(inputId = "bin",
-                             #             label = "Number of bins.",
-                             #             value = 20,
-                             #             min = 1,
-                             #             max = 50),
                              
-                             # Main panel
-                             # Placeholder for histogram plot
-                             # mainPanel(
-                             #   plotOutput(outputId = "histPlot")
-                             # )
                            ), # sidebarPanel
                            
                            mainPanel(
-                             
-                             # style = "margin-left:-23em",
-                             
-                             # h1("COVID-19 Update Summary"),
+
                              h1(textOutput("txtOut1")),
                              
                              h2("Global Totals"),
@@ -108,7 +80,6 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              
                              h2(textOutput("txtOut2")),
                              tableOutput("tableOut4"),
-                             #verbatimTextOutput("txtOut")
                              
                            ) # mainPanel
                            

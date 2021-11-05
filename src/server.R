@@ -1,5 +1,6 @@
 server <- function(input, output) {
   
+  # Day indication for tables ---------------------------
   txt1 <- reactive({
     if (input$dayGlobal == "allowNull"){
       return("Today")
@@ -56,8 +57,8 @@ server <- function(input, output) {
     }
     data
   })
-  
 
+  # On the day
   output$tableOut1 <- renderTable({
     data <- data() %>%
       select(`todayCases`, `todayDeaths`, `todayRecovered`, `active`, `critical`) %>%
@@ -65,6 +66,7 @@ server <- function(input, output) {
       mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
   })
 
+  # Overall
   output$tableOut2 <- renderTable({
     data <- data() %>%
       select(`cases`, `deaths`, `recovered`, `tests`, `population`) %>%
@@ -73,6 +75,7 @@ server <- function(input, output) {
     # select(-`updated`, -``, -``, -``, -``)
   })
   
+  # Per Million
   output$tableOut3 <- renderTable({
     data <- data() %>%
       select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`) %>%
@@ -92,7 +95,7 @@ server <- function(input, output) {
     htmlPage <- read_html(URL) 
     # Access the whole table
     covidCountryTable <- htmlPage %>%
-      html_nodes(glue::glue("#main_table_countries_{input$dayCountry}")) %>% # main_table_countries_yesterday
+      html_nodes(glue::glue("#main_table_countries_{input$dayCountry}")) %>%
       html_table() %>%
       bind_rows() %>%
       filter(!is.na(`#`)) %>%
@@ -112,9 +115,6 @@ server <- function(input, output) {
     covidCountryTable 
   })
   
-
-  # txt2 <- eventReactive(input$button, {input$txt2})
-  
   # output Detailed Table
   output$tableOut4 <- renderTable({
     data1() %>%
@@ -123,6 +123,7 @@ server <- function(input, output) {
       mutate(across(usefulNumCol, function(x){ number(x, accuracy = 1, big.mark = ",") }))
   })
   
+  # Download ---------------------------
   datasetInput <- reactive({
     if (input$dataset == "globalTotals") {
       # converting rows into columns and columns into rows
@@ -147,6 +148,7 @@ server <- function(input, output) {
     }
   )
   
+  # Refresh ---------------------------
   rfTime <- reactive({
     input$rfBtn
     as.character(Sys.time())
