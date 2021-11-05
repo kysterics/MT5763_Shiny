@@ -42,7 +42,8 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              tags$h3("Download in .csv"),
                              # Input: Choose dataset to download
                              selectInput("dataset", "Choose a dataset:",
-                                         choices = c("Cases by Country/Territory", "Global Totals")),
+                                         choices = c("Global Totals (Complete)" = "globalTotals",
+                                                     "Cases by Country/Territory" = "casesByCountry")),
                              
                              # Refresh button
                              actionButton(inputId = "rfBtn",

@@ -25,44 +25,50 @@ server <- function(input, output) {
     input$rfBtn
     # API call
     # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
-    URL <- glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
+    URL <- glue::glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
     # Send http request
     response <- httr::GET(URL)
     
     # Read / unpack a binary file
     dtaJSON <- readBin(response$content, "text")
     data <- fromJSON(dtaJSON) %>%
-      bind_rows() %>%
-      mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
-      
-    
+      bind_rows()
+
     # set up auto-refresh
     if (input$autoRf){
       autoInvalidate()
       return(data)
     }
-    
-    return(data)
+    data
   })
   
 
   output$tableOut1 <- renderTable({
     data <- data() %>%
-      select(`todayCases`, `todayDeaths`, `todayRecovered`, `active`, `critical`)
+      select(`todayCases`, `todayDeaths`, `todayRecovered`, `active`, `critical`) %>%
+      # make numbers more readable by removing trailing zeros and adding commas
+      mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
   })
 
   output$tableOut2 <- renderTable({
     data <- data() %>%
-      select(`cases`, `deaths`, `recovered`, `tests`, `population`)
+      select(`cases`, `deaths`, `recovered`, `tests`, `population`) %>%
+      # make numbers more readable by removing trailing zeros and adding commas
+      mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
     # select(-`updated`, -``, -``, -``, -``)
   })
   
   output$tableOut3 <- renderTable({
     data <- data() %>%
-      select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`)
+      select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`) %>%
+      # make numbers more readable by removing trailing zeros and adding commas
+      mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
   })
   
   # Detailed Table ---------------------------
+  usefulCol <- c(1:9) # columns to keep
+  usefulNumCol <- c(3:9) # columns with numbers
+  
   data1 <- reactive({
     input$rfBtn
     # Web page containing data
@@ -70,8 +76,6 @@ server <- function(input, output) {
     # Download the whole web page
     htmlPage <- read_html(URL) 
     # Access the whole table
-    usefulCol <- c(1:9) # columns to keep
-    usefulNumCol <- c(3:9) # columns with numbers
     covidCountryTable <- htmlPage %>%
       html_nodes("#main_table_countries_today") %>% # main_table_countries_yesterday
       html_table() %>%
@@ -90,26 +94,41 @@ server <- function(input, output) {
       covidCountryTable <- covidCountryTable %>%
         arrange(desc(get(input$sort)))
     }
-    
-    # make numbers more readable by removing trailing zeros and adding commas
-    # alternatively # mutate(across(where(is.numeric), as.integer)) # mutate_if(is.numeric, as.integer)
-    covidCountryTable %>%
-      mutate(across(usefulNumCol, function(x){ number(x, accuracy = 1, big.mark = ",") }))
+    covidCountryTable 
   })
   
 
   # txt2 <- eventReactive(input$button, {input$txt2})
   
+  # output Detailed Table
   output$tableOut4 <- renderTable({
-    data1()
+    data1() %>%
+      # make numbers more readable by removing trailing zeros and adding commas
+      # alternatively # mutate(across(where(is.numeric), as.integer)) # mutate_if(is.numeric, as.integer)
+      mutate(across(usefulNumCol, function(x){ number(x, accuracy = 1, big.mark = ",") }))
+  })
+  
+  datasetInput <- reactive({
+    if (input$dataset == "globalTotals") {
+      # converting rows into columns and columns into rows
+      data <- data() %>% 
+        rownames_to_column() %>% 
+        gather(`0`, values, -rowname) %>% 
+        spread(rowname, values)
+      return(data)
+    }
+    if (input$dataset == "casesByCountry") {
+      return(data1())
+    }
   })
   
   output$downloadData <- downloadHandler(
+
     filename = function() {
       paste(input$dataset, ".csv", sep = "")
     },
     content = function(file) {
-      write.csv(data1(), file, row.names = FALSE)
+      write.csv(datasetInput(), file, row.names = FALSE)
     }
   )
 }
