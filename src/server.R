@@ -1,5 +1,4 @@
 server <- function(input, output) {
-  # paths_allowed("https://www.amazon.co.uk/")
   
   txt1 <- reactive({
     if (input$dayGlobal == "allowNull"){

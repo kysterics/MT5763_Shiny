@@ -1,6 +1,8 @@
 # Define UI
 ui <- fluidPage(theme = shinytheme("slate"),
-                
+                tags$head(
+                  tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+                ),
                 navbarPage(
                   
                   "Data Source",
