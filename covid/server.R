@@ -120,7 +120,7 @@ server <- function(input, output) {
     data1() %>%
       # make numbers more readable by removing trailing zeros and adding commas
       # alternatively # mutate(across(where(is.numeric), as.integer)) # mutate_if(is.numeric, as.integer)
-      mutate(across(usefulNumCol, function(x){ number(x, accuracy = 1, big.mark = ",") }))
+      mutate(across(usefulNumCol, function(x){ scales::number(x, accuracy = 1, big.mark = ",") }))
   })
   
   # Download ---------------------------
