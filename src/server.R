@@ -32,8 +32,11 @@ server <- function(input, output) {
     # Read / unpack a binary file
     dtaJSON <- readBin(response$content, "text")
     data <- fromJSON(dtaJSON) %>%
-      bind_rows()
+      bind_rows() %>%
+      mutate(across(everything(), function(x){ number(x, accuracy = 1, big.mark = ",") }))
+      
     
+    # set up auto-refresh
     if (input$autoRf){
       autoInvalidate()
       return(data)
@@ -53,6 +56,7 @@ server <- function(input, output) {
       select(`cases`, `deaths`, `recovered`, `tests`, `population`)
     # select(-`updated`, -``, -``, -``, -``)
   })
+  
   output$tableOut3 <- renderTable({
     data <- data() %>%
       select(`casesPerOneMillion`, `deathsPerOneMillion`, `deathsPerOneMillion`, `recoveredPerOneMillion`)
@@ -66,24 +70,31 @@ server <- function(input, output) {
     # Download the whole web page
     htmlPage <- read_html(URL) 
     # Access the whole table
-
-    marketTable <- htmlPage %>%
+    usefulCol <- c(1:9) # columns to keep
+    usefulNumCol <- c(3:9) # columns with numbers
+    covidCountryTable <- htmlPage %>%
       html_nodes("#main_table_countries_today") %>% # main_table_countries_yesterday
       html_table() %>%
       bind_rows() %>%
       filter(!is.na(`#`)) %>%
-      select(1:9)
-
+      select(usefulCol) %>%
+      # read character numerically
+      mutate(across(usefulNumCol, readr::parse_number))
+    
+    # set up sorting order
     if (input$order == "asc") {
-      marketTable <- marketTable %>% 
+      covidCountryTable <- covidCountryTable %>% 
         arrange(get(input$sort)) # `get` turns character into a variable
     }
-    
     if (input$order == "dsc") {
-      marketTable <- marketTable %>% 
+      covidCountryTable <- covidCountryTable %>%
         arrange(desc(get(input$sort)))
     }
-    marketTable
+    
+    # make numbers more readable by removing trailing zeros and adding commas
+    # alternatively # mutate(across(where(is.numeric), as.integer)) # mutate_if(is.numeric, as.integer)
+    covidCountryTable %>%
+      mutate(across(usefulNumCol, function(x){ number(x, accuracy = 1, big.mark = ",") }))
   })
   
 
