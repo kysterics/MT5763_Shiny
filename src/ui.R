@@ -16,13 +16,19 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              # textInput("txt1", "Country", ""),
                              #textInput("txt2", "Surname:", ""),
                              
-                             selectInput("day", "Day:",
+                             selectInput("dayGlobal", "Day:",
                                          # queries for API
                                          c("Today" = "allowNull",
                                            "Yesterday" = "yesterday",
                                            "Two days ago" = "twoDaysAgo")),
                              
                              tags$h3("Cases by Country/Territory"),
+                             
+                             selectInput("dayCountry", "Day:",
+                                         # queries for API
+                                         c("Today" = "today",
+                                           "Yesterday" = "yesterday",
+                                           "Two days ago" = "yesterday2")),
                              
                              selectInput("sort", "Sort by:",
                                          c("#" = "#",
@@ -98,7 +104,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              h4("Per Million"),
                              tableOutput("tableOut3"),
                              
-                             h2("Cases by Country/Territory"),
+                             h2(textOutput("txtOut2")),
                              tableOutput("tableOut4"),
                              #verbatimTextOutput("txtOut")
                              

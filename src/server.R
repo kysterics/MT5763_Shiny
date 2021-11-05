@@ -2,19 +2,35 @@ server <- function(input, output) {
   # paths_allowed("https://www.amazon.co.uk/")
   
   txt1 <- reactive({
-    if (input$day == "allowNull"){
+    if (input$dayGlobal == "allowNull"){
       return("Today")
     }
-    if (input$day == "yesterday"){
+    if (input$dayGlobal == "yesterday"){
       return("Yesterday")
     }
-    if (input$day == "twoDaysAgo"){
+    if (input$dayGlobal == "twoDaysAgo"){
       return("Two days ago")
     }
   })
   
   output$txtOut1 <- renderText({
-    glue("COVID-19 Update Summary ({txt1()})")
+    glue::glue("COVID-19 Update Summary ({txt1()})")
+  })
+  
+  txt2 <- reactive({
+    if (input$dayCountry == "today"){
+      return("Today")
+    }
+    if (input$dayCountry == "yesterday"){
+      return("Yesterday")
+    }
+    if (input$dayCountry == "yesterday2"){
+      return("Two days ago")
+    }
+  })
+  
+  output$txtOut2 <- renderText({
+    glue::glue("Cases by Country/Territory ({txt2()})")
   })
   
   # Summary ---------------------------
@@ -25,7 +41,7 @@ server <- function(input, output) {
     input$rfBtn
     # API call
     # takes `allowNull`(today), `yesterday` and `twoDaysAgo` queries
-    URL <- glue::glue("https://disease.sh/v3/covid-19/all?{input$day}=true")
+    URL <- glue::glue("https://disease.sh/v3/covid-19/all?{input$dayGlobal}=true")
     # Send http request
     response <- httr::GET(URL)
     
@@ -77,7 +93,7 @@ server <- function(input, output) {
     htmlPage <- read_html(URL) 
     # Access the whole table
     covidCountryTable <- htmlPage %>%
-      html_nodes("#main_table_countries_today") %>% # main_table_countries_yesterday
+      html_nodes(glue::glue("#main_table_countries_{input$dayCountry}")) %>% # main_table_countries_yesterday
       html_table() %>%
       bind_rows() %>%
       filter(!is.na(`#`)) %>%
