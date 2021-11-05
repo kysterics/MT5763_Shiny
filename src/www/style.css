@@ -3,10 +3,8 @@ nav.navbar.navbar-default.navbar-static-top {
     top: 0;
 }
 
-@media only screen and (min-width: 1100px) {
-    form.well {
-        position: fixed;
-    }
+.selectize-input.full {
+    background-color: #dddddd;
 }
 
 #tableOut3 thead th:nth-child(1),
