@@ -1,0 +1,42 @@
+body {
+    font-family: monospace;
+}
+
+nav,
+form.well {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+nav.navbar.navbar-default.navbar-static-top {
+    position: sticky;
+    top: 0;
+}
+
+.selectize-input.full {
+    background-color: #dddddd;
+}
+
+h2 {
+    border-bottom: 3px solid #bbb;
+}
+
+h4 {
+    font-style: italic;
+}
+
+#tableOut3 thead th:nth-child(1),
+#tableOut2 thead th:nth-child(1),
+#tableOut1 thead th:nth-child(1) {
+    color: rgb(186, 183, 67);
+}
+#tableOut3 thead th:nth-child(2),
+#tableOut2 thead th:nth-child(2),
+#tableOut1 thead th:nth-child(2) {
+    color: rgb(174, 88, 76);
+}
+#tableOut3 thead th:nth-child(3),
+#tableOut2 thead th:nth-child(3),
+#tableOut1 thead th:nth-child(3) {
+    color: rgb(89, 169, 91);
+}
+

@@ -1,0 +1,11 @@
+name: covid
+title:
+username:
+account: kysterics
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5054629
+bundleId: 5218466
+url: https://kysterics.shinyapps.io/covid/
+when: 1636132684.14635
+lastSyncTime: 1636132684.14635
