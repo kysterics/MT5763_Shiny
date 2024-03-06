@@ -1,4 +1,4 @@
-### Overview
+## Overview
 The shiny app brings an update summary of covid cases, both globally and regionally. It provides the relevant information by use of two tables — `Global Totals` and `Cases by Country/Territory`. Users can configure the displayed data according to their liking.
 
 ### Configuration Panel
